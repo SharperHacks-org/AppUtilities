@@ -2,7 +2,7 @@
 # AppUtilities Library for .NET
 ## SharperHacks.CoreLibs.AppUtilites.
 
-Some useful bits for writing console apps
+Some useful bits for writing console apps.
 
 Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE).
 
