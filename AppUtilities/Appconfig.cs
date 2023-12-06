@@ -13,7 +13,7 @@ namespace SharperHacks.CoreLibs.AppUtilities;
 /// Wires up the appconfig data we need to initialize the app.
 /// </summary>
 /// <remarks>This is a WIP.</remarks>
-public static class Appconfig
+public static class AppConfig
 {
     internal static string _productName;
     internal static string _logDirectory = string.Empty;
@@ -112,7 +112,7 @@ public static class Appconfig
     }
 
     /// <summary>
-    /// Get {ProductName}:Logging:FilePrefix if not null, or return <see cref="Appconfig.ProductName"/>
+    /// Get {ProductName}:Logging:FilePrefix if not null, or return <see cref="AppConfig.ProductName"/>
     /// </summary>
     public static string LogFilePrefix => 
         Configuration.GetValue<string>($"{ProductName}:Logging:FilePrefix") ?? ProductName;
@@ -138,7 +138,7 @@ public static class Appconfig
 
     // ToDo: Console in/out encoding should be configurable!
 
-    static Appconfig()
+    static AppConfig()
     {
         Verify.IsNotNullOrEmpty(_productName);
         Console.OutputEncoding = Encoding.UTF8;

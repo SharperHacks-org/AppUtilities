@@ -2,7 +2,7 @@
 
 using SharperHacks.CoreLibs.Constants;
 
-namespace SharperHacks.CoreLibs.AppUtilities;
+namespace SharperHacks.CoreLibs.AppUtilities.UnitTests;
 
 [TestClass]
 public class AppConfigSmokeTests
@@ -16,45 +16,45 @@ public class AppConfigSmokeTests
     [TestMethod]
     public void ProductNameIsCorrect()
     {
-        Console.WriteLine($"Product name: {Appconfig.ProductName}");
-        Assert.AreEqual("testhost", Appconfig.ProductName);
+        Console.WriteLine($"Product name: {AppConfig.ProductName}");
+        Assert.AreEqual("testhost", AppConfig.ProductName);
     }
 
     [TestMethod]
     public void TestConfigFileExists()
     {
-        Console.WriteLine($"Config file: {Appconfig.JsonAppSettingsFileName}");
-        Assert.IsTrue(File.Exists(Appconfig.JsonAppSettingsFileName));
+        Console.WriteLine($"Config file: {AppConfig.JsonAppSettingsFileName}");
+        Assert.IsTrue(File.Exists(AppConfig.JsonAppSettingsFileName));
     }
 
     [TestMethod]
     public void JsonAppSettingsFileNameIsCorrect()
     {
-        var fileName = Appconfig.JsonAppSettingsFileName;
+        var fileName = AppConfig.JsonAppSettingsFileName;
 
         Assert.IsNotNull(fileName);
-        Assert.AreEqual($"{Appconfig.ProductName}.appsettings.json", fileName);
+        Assert.AreEqual($"{AppConfig.ProductName}.appsettings.json", fileName);
     }
 
     [TestMethod]
     public void DefaultConsoleLogEventLevelIsCorrect()
     {
         var expected = _debug ? LogLevel.Information : LogLevel.Warning;
-        Assert.AreEqual(expected, Appconfig.DefaultConsoleLogEventLevel);
+        Assert.AreEqual(expected, AppConfig.DefaultConsoleLogEventLevel);
     }
 
     [TestMethod]
     public void DefaultFileLogEventLevelIsCorrect()
     {
         var expected = _debug ? LogLevel.Verbose : LogLevel.Information;
-        Assert.AreEqual(expected, Appconfig.DefaultFileLogEventLevel);
+        Assert.AreEqual(expected, AppConfig.DefaultFileLogEventLevel);
     }
 
     [TestMethod]
     public void TraceIsEnabled()
     {
         var expected = _debug;
-        Assert.AreEqual(expected, Appconfig.TraceEnabled);
+        Assert.AreEqual(expected, AppConfig.TraceEnabled);
     }
 }
 
