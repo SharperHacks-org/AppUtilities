@@ -1,6 +1,8 @@
 ﻿// Copyright and trademark notices at bottom of file.
 
-using SharperHacks.CoreLibs.Constants;
+using Microsoft.Extensions.Logging;
+
+using Serilog.Events;
 
 namespace SharperHacks.CoreLibs.AppUtilities.UnitTests;
 
@@ -46,7 +48,7 @@ public class AppConfigSmokeTests
     [TestMethod]
     public void DefaultFileLogEventLevelIsCorrect()
     {
-        var expected = _debug ? LogLevel.Verbose : LogLevel.Information;
+        var expected = _debug ? LogLevel.Trace : LogLevel.Information;
         Assert.AreEqual(expected, AppConfig.DefaultFileLogEventLevel);
     }
 

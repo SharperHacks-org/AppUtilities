@@ -1,8 +1,11 @@
-﻿// Copyright and trademark notices at bottom of file.
+﻿
+// Copyright and trademark notices at the end of this file.
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
-using SharperHacks.CoreLibs.Constants;
+//using Serilog.Events;
+
 using SharperHacks.CoreLibs.Constraints;
 
 using System.Text;
@@ -12,17 +15,10 @@ namespace SharperHacks.CoreLibs.AppUtilities;
 /// <summary>
 /// Wires up the appconfig data we need to initialize the app.
 /// </summary>
-/// <remarks>This is a WIP.</remarks>
 public static class AppConfig
 {
     internal static string _productName;
     internal static string _logDirectory = string.Empty;
-
-#if DEBUG
-    internal static string buildType = "Debug";
-#else
-    internal static string buildType = "Release";
-#endif
 
     // ToDo: We should probably allow some of these to be modified by our consumers.
 
@@ -74,8 +70,12 @@ public static class AppConfig
     ///   Defaulting to a top-level context of product name avoids collisions in the default scope.
     ///   </para>
     /// </remarks>
-    public static LogLevel DefaultConsoleLogEventLevel => 
-        Configuration.GetValue<LogLevel>($"{ProductName}:Logging:LogLevel:{buildType}:Console");
+#if DEBUG
+    public static LogLevel DefaultConsoleLogEventLevel => Configuration.GetValue<LogLevel>($"{ProductName}:Logging:LogLevel:Debug:Console");
+
+#else
+    public static LogLevel DefaultConsoleLogEventLevel => Configuration.GetValue<LogLevel>($"{ProductName}:Logging:LogLevel:Release:Console");
+#endif
 
     /// <summary>
     /// Get {ProductName}:Logging:LogLevel:File if it exists, or default LogEvenLevel.
@@ -83,12 +83,14 @@ public static class AppConfig
     /// <remarks>
     /// The default LogEvenLevel of Verbose will be retured if not found in the file.
     /// </remarks>
-    public static LogLevel DefaultFileLogEventLevel => 
-        Configuration.GetValue<LogLevel>($"{ProductName}:Logging:LogLevel:{buildType}:File");
+#if DEBUG
+    public static LogLevel DefaultFileLogEventLevel => Configuration.GetValue<LogLevel>($"{ProductName}:Logging:LogLevel:Debug:File");
+#else
+    public static LogLevel DefaultFileLogEventLevel => Configuration.GetValue<LogLevel>($"{ProductName}:Logging:LogLevel:Release:File");
+#endif
 
     /// <summary>
-    /// Get {ProductName}:Logging:LogPath:Directory if not null, or return the
-    /// LocalApplicationData special folder.
+    /// Get {ProductName}:Logging:LogPath:Directory if not null, or return the LocalApplicationData special folder.
     /// </summary>
     public static string LogDirectory
     { 
@@ -127,14 +129,16 @@ public static class AppConfig
     /// Get the production log path for the calling app. Constructed from <see cref="LogDirectory"/>,
     /// <see cref="LogFilePrefix"/> an intervening hyphen and <see cref="LogFilePostfix"/>
     /// </summary>
-    public static string ProductionLogPath => 
-        Path.Join(LogDirectory, $"{LogFilePrefix}-{LogFilePostfix}");
+    public static string ProductionLogPath => Path.Join(LogDirectory, $"{LogFilePrefix}-{LogFilePostfix}");
 
     /// <summary>
-    /// Get whether trace events should be logged.
+    /// Get or set whether trace events should be logged.
     /// </summary>
-    public static bool TraceEnabled => 
-        Configuration.GetValue<bool>($"{ProductName}:Logging:LogLevel:{buildType}:TraceEnabled");
+#if DEBUG
+    public static bool TraceEnabled => Configuration.GetValue<bool>($"{ProductName}:Logging:LogLevel:TraceEnabled:Debug");
+#else
+    public static bool TraceEnabled => Configuration.GetValue<bool>($"{ProductName}:Logging:LogLevel:TraceEnabled:Release");
+#endif
 
     // ToDo: Console in/out encoding should be configurable!
 
@@ -163,4 +167,3 @@ public static class AppConfig
 // SharperHacks is a trademark of Sharper Hacks LLC (US-Wa), and may not be
 // applied to distributions of derivative works, without the express written
 // permission of a registered officer of Sharper Hacks LLC (US-WA).
-

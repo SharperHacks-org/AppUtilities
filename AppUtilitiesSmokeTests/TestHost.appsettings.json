@@ -1,30 +1,32 @@
 {
   "testhost": {
     "Logging": {
-        "LogLevel": {
-            "Debug": {
-                "Console": "Information",
-                "File": "Verbose",
-                "TraceEnabled": "true"
-            },
-            "Release": {
-                "Console": "Warning",
-                "File": "Information",
-                "TraceEnabled":  "false"
-            }
-        },
-        "LogPath": {
-            "comment_directory": "Environment.SpecialFolder.LocalApplicationData will be used if Directory is null.",
-            "Directory": null,
+      "LogLevel": {
+         "Debug": {
+            "Console": "Information",
+            "File": "Trace",
+            "TraceEnabled": "true"
+         },
+         "Release": {
+            "Console": "Warning",
+            "File": "Information",
+            "TraceEnabled": "false"
+         },
+         "TraceEnabled": {
+            "Debug": "true",
+            "Release": "false"
+         }
+      },
+      "LogPath": {
+         "comment_directory": "Environment.SpecialFolder.LocalApplicationData will be used if Directory is null.",
+         "Directory": null,
 
-            "comment_fileprefix": "typeof(Program).Assembly.FullName will be used if FilePrefix is null.",
-            "FilePrefix": null,
+         "comment_fileprefix": "typeof(Program).Assembly.FullName will be used if FilePrefix is null.",
+         "FilePrefix": null,
 
-            "comment_filepostfix": ".log will be used if FilePostfix is null",
-            "FilePostfix": ".txt"
-        }
-    },
-    "OptionDefaultOverrides": {
+         "comment_filepostfix": ".log will be used if FilePostfix is null",
+         "FilePostfix": ".txt"
+      }
     }
   }
 }
