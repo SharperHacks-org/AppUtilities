@@ -2,8 +2,6 @@
 
 using Microsoft.Extensions.Logging;
 
-using Serilog.Events;
-
 namespace SharperHacks.CoreLibs.AppUtilities.UnitTests;
 
 [TestClass]
