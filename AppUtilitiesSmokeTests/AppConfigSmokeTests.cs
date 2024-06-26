@@ -7,11 +7,7 @@ namespace SharperHacks.CoreLibs.AppUtilities.UnitTests;
 [TestClass]
 public class AppConfigSmokeTests
 {
-#if DEBUG
-    private const bool _debug = true;
-#else
-    private const bool _debug = false;
-#endif
+//    private const bool _debug = false;
 
     [TestMethod]
     public void ProductNameIsCorrect()
@@ -39,22 +35,19 @@ public class AppConfigSmokeTests
     [TestMethod]
     public void DefaultConsoleLogEventLevelIsCorrect()
     {
-        var expected = _debug ? LogLevel.Information : LogLevel.Warning;
-        Assert.AreEqual(expected, AppConfig.DefaultConsoleLogEventLevel);
+        Assert.AreEqual(LogLevel.Warning, AppConfig.DefaultConsoleLogEventLevel);
     }
 
     [TestMethod]
     public void DefaultFileLogEventLevelIsCorrect()
     {
-        var expected = _debug ? LogLevel.Trace : LogLevel.Information;
-        Assert.AreEqual(expected, AppConfig.DefaultFileLogEventLevel);
+        Assert.AreEqual(LogLevel.Information, AppConfig.DefaultFileLogEventLevel);
     }
 
     [TestMethod]
     public void TraceIsEnabled()
     {
-        var expected = _debug;
-        Assert.AreEqual(expected, AppConfig.TraceEnabled);
+        Assert.AreEqual(false, AppConfig.TraceEnabled);
     }
 }
 

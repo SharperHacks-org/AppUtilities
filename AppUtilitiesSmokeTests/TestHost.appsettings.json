@@ -2,20 +2,9 @@
   "testhost": {
     "Logging": {
       "LogLevel": {
-         "Debug": {
-            "Console": "Information",
-            "File": "Trace",
-            "TraceEnabled": "true"
-         },
-         "Release": {
-            "Console": "Warning",
-            "File": "Information",
-            "TraceEnabled": "false"
-         },
-         "TraceEnabled": {
-            "Debug": "true",
-            "Release": "false"
-         }
+         "Console": "Warning",
+         "File": "Information",
+         "TraceEnabled": "false"
       },
       "LogPath": {
          "comment_directory": "Environment.SpecialFolder.LocalApplicationData will be used if Directory is null.",

@@ -69,12 +69,7 @@ public static class AppConfig
     ///   Defaulting to a top-level context of product name avoids collisions in the default scope.
     ///   </para>
     /// </remarks>
-#if DEBUG
-    public static LogLevel DefaultConsoleLogEventLevel => Configuration.GetValue<LogLevel>($"{ProductName}:Logging:LogLevel:Debug:Console");
-
-#else
-    public static LogLevel DefaultConsoleLogEventLevel => Configuration.GetValue<LogLevel>($"{ProductName}:Logging:LogLevel:Release:Console");
-#endif
+    public static LogLevel DefaultConsoleLogEventLevel => Configuration.GetValue<LogLevel>($"{ProductName}:Logging:LogLevel:Console");
 
     /// <summary>
     /// Get {ProductName}:Logging:LogLevel:File if it exists, or default LogEvenLevel.
@@ -82,11 +77,7 @@ public static class AppConfig
     /// <remarks>
     /// The default LogEvenLevel of Verbose will be retured if not found in the file.
     /// </remarks>
-#if DEBUG
-    public static LogLevel DefaultFileLogEventLevel => Configuration.GetValue<LogLevel>($"{ProductName}:Logging:LogLevel:Debug:File");
-#else
-    public static LogLevel DefaultFileLogEventLevel => Configuration.GetValue<LogLevel>($"{ProductName}:Logging:LogLevel:Release:File");
-#endif
+    public static LogLevel DefaultFileLogEventLevel => Configuration.GetValue<LogLevel>($"{ProductName}:Logging:LogLevel:File");
 
     /// <summary>
     /// Get {ProductName}:Logging:LogPath:Directory if not null, or return the LocalApplicationData special folder.
@@ -133,11 +124,7 @@ public static class AppConfig
     /// <summary>
     /// Get or set whether trace events should be logged.
     /// </summary>
-#if DEBUG
-    public static bool TraceEnabled => Configuration.GetValue<bool>($"{ProductName}:Logging:LogLevel:TraceEnabled:Debug");
-#else
-    public static bool TraceEnabled => Configuration.GetValue<bool>($"{ProductName}:Logging:LogLevel:TraceEnabled:Release");
-#endif
+    public static bool TraceEnabled => Configuration.GetValue<bool>($"{ProductName}:Logging:LogLevel:TraceEnabled");
 
     // ToDo: Console in/out encoding should be configurable!
 
