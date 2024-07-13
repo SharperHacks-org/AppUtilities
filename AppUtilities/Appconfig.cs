@@ -133,6 +133,11 @@ public static class AppConfig
         Verify.IsNotNullOrEmpty(_productName);
         Console.OutputEncoding = Encoding.UTF8;
         Console.InputEncoding = Encoding.UTF8;
+
+        if (!File.Exists(JsonAppSettingsFileName))
+        {
+            File.Create(JsonAppSettingsFileName).Close();
+        }
     }
 }
 
