@@ -2,6 +2,8 @@
 
 using Microsoft.Extensions.Logging;
 
+using Serilog;
+
 namespace SharperHacks.CoreLibs.AppUtilities.UnitTests;
 
 [TestClass]
@@ -42,6 +44,16 @@ public class AppConfigSmokeTests
     public void DefaultFileLogEventLevelIsCorrect()
     {
         Assert.AreEqual(LogLevel.Information, AppConfig.DefaultFileLogEventLevel);
+    }
+
+    [TestMethod]
+    public void DefaultLogDirectoryIsCorrect()
+    {
+        Console.WriteLine($"LogDirectory: {AppConfig.LogDirectory}");
+        Assert.IsTrue(
+            AppConfig.LogDirectory.StartsWith(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) ?? @".\"));
+        Assert.IsTrue(AppConfig.LogDirectory.EndsWith($@"AppData\Local\{AppConfig.ProductName}\Logs"));
     }
 
     [TestMethod]
