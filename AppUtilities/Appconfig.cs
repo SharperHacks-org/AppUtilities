@@ -43,7 +43,7 @@ public static class AppConfig
     /// <summary>
     /// Get the json settings file name.
     /// </summary>
-    public static string JsonAppSettingsFileName => $"{ProductName}.appsettings.json";
+    public static string JsonAppSettingsFileName { get; set; } = $"{ProductName}.appsettings.json";
 
     /// <summary>
     /// Get the IConfiguration instance.
@@ -136,7 +136,11 @@ public static class AppConfig
 
         if (!File.Exists(JsonAppSettingsFileName))
         {
-            File.Create(JsonAppSettingsFileName).Close();
+            var defaultAppSettingsPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory, 
+                AppDomain.CurrentDomain.RelativeSearchPath ?? "",
+                JsonAppSettingsFileName);
+            if (File.Exists(defaultAppSettingsPath)) JsonAppSettingsFileName = defaultAppSettingsPath;
         }
     }
 }
