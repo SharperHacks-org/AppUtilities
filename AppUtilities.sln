@@ -5,6 +5,7 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6818CE48-DCFE-4C6C-A57B-77A9306F1C40}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		build.cmd = build.cmd
 		checkinTest.cmd = checkinTest.cmd
 		CopyrightChecks.cmd = CopyrightChecks.cmd

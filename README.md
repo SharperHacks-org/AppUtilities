@@ -47,6 +47,9 @@ public static string LogFilePostfix { get; }
 /// Get the production log path for the calling app. Constructed from <see cref="LogDirectory"/>
 public static string ProductionLogPath { get; }
 
+/// Get the application's root data path.
+public static string RootDataPath { get; }
+
 /// Get whether trace events should be logged.
 public static bool TraceEnabled { get; }
 

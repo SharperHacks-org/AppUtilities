@@ -3,8 +3,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-//using Serilog.Events;
-
 using SharperHacks.CoreLibs.Constraints;
 
 using System.Text;
@@ -19,26 +17,7 @@ public static class AppConfig
     internal static string _productName;
     internal static string _logDirectory = string.Empty;
 
-    // ToDo: We should probably allow some of these to be modified by our consumers.
-
-    /// <summary>
-    /// Get the product name.
-    /// </summary>
-    /// <remarks>
-    /// This will be broken if called from unmanaged code, but we'll probably never really care about that.    
-    /// </remarks>
-    public static string ProductName
-    {
-        get
-        {
-            if (string.IsNullOrEmpty(_productName))
-            {
-                _productName = AppDomain.CurrentDomain.FriendlyName.Split(',')[0];
-                Verify.IsNotNullOrEmpty(_productName);
-            }
-            return _productName!;
-        }
-    }
+    // Note the order of initialization is important for JsonAppSettingsFileName and Configuration.
 
     /// <summary>
     /// Get the json settings file name.
@@ -93,7 +72,7 @@ public static class AppConfig
                 if (string.IsNullOrEmpty(path))
                 {
                     path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
-                        ?? @".\";
+                           ?? @".\";
                 }
 
                 _logDirectory = Path.Join(path, ProductName, "Logs");
@@ -122,6 +101,50 @@ public static class AppConfig
     public static string ProductionLogPath => Path.Join(LogDirectory, $"{LogFilePrefix}-{LogFilePostfix}");
 
     /// <summary>
+    /// Get the product name.
+    /// </summary>
+    /// <remarks>
+    /// This will be broken if called from unmanaged code, but we'll probably never really care about that.    
+    /// </remarks>
+    public static string ProductName
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(_productName))
+            {
+                _productName = AppDomain.CurrentDomain.FriendlyName.Split(',')[0];
+                Verify.IsNotNullOrEmpty(_productName);
+            }
+            return _productName!;
+        }
+    }
+
+    private static string? _rootDataPath;
+
+    /// <summary>
+    /// Get the application's root data path.
+    /// </summary>
+    public static string RootDataPath
+    {
+        get
+        {
+            if (_rootDataPath is not null) return _rootDataPath;
+
+            var path = Configuration.GetValue<string>($"{ProductName}:RootDataPath");
+
+            if (string.IsNullOrEmpty(path))
+            {
+                path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+                     ?? @".\";
+            }
+
+            _rootDataPath = Path.Join(path, ProductName, "Data");
+
+            return _rootDataPath;
+        }
+    }
+
+    /// <summary>
     /// Get or set whether trace events should be logged.
     /// </summary>
     public static bool TraceEnabled => Configuration.GetValue<bool>($"{ProductName}:Logging:LogLevel:TraceEnabled");
@@ -137,7 +160,7 @@ public static class AppConfig
         if (!File.Exists(JsonAppSettingsFileName))
         {
             var defaultAppSettingsPath = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory, 
+                AppDomain.CurrentDomain.BaseDirectory,
                 AppDomain.CurrentDomain.RelativeSearchPath ?? "",
                 JsonAppSettingsFileName);
             if (File.Exists(defaultAppSettingsPath)) JsonAppSettingsFileName = defaultAppSettingsPath;

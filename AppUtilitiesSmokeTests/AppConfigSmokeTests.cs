@@ -2,14 +2,12 @@
 
 using Microsoft.Extensions.Logging;
 
-using Serilog;
-
 namespace SharperHacks.CoreLibs.AppUtilities.UnitTests;
 
 [TestClass]
 public class AppConfigSmokeTests
 {
-//    private const bool _debug = false;
+    private string _localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) ?? @".\";
 
     [TestMethod]
     public void ProductNameIsCorrect()
@@ -50,9 +48,8 @@ public class AppConfigSmokeTests
     public void DefaultLogDirectoryIsCorrect()
     {
         Console.WriteLine($"LogDirectory: {AppConfig.LogDirectory}");
-        Assert.IsTrue(
-            AppConfig.LogDirectory.StartsWith(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) ?? @".\"));
+
+        Assert.IsTrue(AppConfig.LogDirectory.StartsWith(_localAppDataPath));
         Assert.IsTrue(AppConfig.LogDirectory.EndsWith($@"AppData\Local\{AppConfig.ProductName}\Logs"));
     }
 
@@ -60,6 +57,19 @@ public class AppConfigSmokeTests
     public void TraceIsEnabled()
     {
         Assert.AreEqual(false, AppConfig.TraceEnabled);
+    }
+
+    [TestMethod]
+    public void DefaultRootDataPathIsCorrect()
+    {
+        var rootPath = AppConfig.RootDataPath;
+
+        Console.WriteLine(rootPath);
+
+        Assert.IsNotNull(rootPath);
+        Assert.IsFalse(string.IsNullOrEmpty(rootPath));
+        Assert.IsTrue(rootPath.StartsWith(_localAppDataPath));
+        Assert.IsTrue(rootPath.EndsWith($@"AppData\Local\{AppConfig.ProductName}\Data"));
     }
 }
 
