@@ -149,8 +149,6 @@ public static class AppConfig
     /// </summary>
     public static bool TraceEnabled => Configuration.GetValue<bool>($"{ProductName}:Logging:LogLevel:TraceEnabled");
 
-    // ToDo: Console in/out encoding should be configurable!
-
     static AppConfig()
     {
         Verify.IsNotNullOrEmpty(_productName);
