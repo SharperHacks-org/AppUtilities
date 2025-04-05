@@ -1,13 +1,15 @@
-﻿// Copyright and trademark notices at bottom of file.
+// Copyright and trademark notices at bottom of file.
 
 using Microsoft.Extensions.Logging;
+
+using SharperHacks.CoreLibs.StringExtensions;
 
 namespace SharperHacks.CoreLibs.AppUtilities.UnitTests;
 
 [TestClass]
 public class AppConfigSmokeTests
 {
-    private string _localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) ?? @".\";
+    private string _localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) ?? $".{Path.DirectorySeparatorChar}";
 
     [TestMethod]
     public void ProductNameIsCorrect()
@@ -50,7 +52,7 @@ public class AppConfigSmokeTests
         Console.WriteLine($"LogDirectory: {AppConfig.LogDirectory}");
 
         Assert.IsTrue(AppConfig.LogDirectory.StartsWith(_localAppDataPath));
-        Assert.IsTrue(AppConfig.LogDirectory.EndsWith($@"AppData\Local\{AppConfig.ProductName}\Logs"));
+        Assert.IsTrue(AppConfig.LogDirectory.EndsWith($@"AppData\Local\{AppConfig.CompanyName}\{AppConfig.ProductName}\Logs".CorrectOSPathSeparators()));
     }
 
     [TestMethod]
@@ -69,7 +71,8 @@ public class AppConfigSmokeTests
         Assert.IsNotNull(rootPath);
         Assert.IsFalse(string.IsNullOrEmpty(rootPath));
         Assert.IsTrue(rootPath.StartsWith(_localAppDataPath));
-        Assert.IsTrue(rootPath.EndsWith($@"AppData\Local\{AppConfig.ProductName}\Data"));
+        Assert.IsTrue(rootPath.EndsWith(
+            $@"AppData\Local\{AppConfig.CompanyName}\{AppConfig.ProductName}\Data".CorrectOSPathSeparators()));
     }
 }
 
