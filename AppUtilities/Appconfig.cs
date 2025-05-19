@@ -176,9 +176,9 @@ public static class AppConfig
 
         DefaultConsoleLogEventLevel = Configuration.GetValue<LogLevel>($"{ProductName}:Logging:LogLevel:Console");
         DefaultFileLogEventLevel = Configuration.GetValue<LogLevel>($"{ProductName}:Logging:LogLevel:File");
-        ProductionLogPath = Path.Join(LogDirectory, $"{LogFilePrefix}-{LogFilePostfix}");
         LogFilePrefix = Configuration.GetValue<string>($"{ProductName}:Logging:FilePrefix") ?? ProductName;
         LogFilePostfix = Configuration.GetValue<string>($"{ProductName}:Logging:FilePostfix") ?? ".log";
+        ProductionLogPath = Path.Join(LogDirectory, $"{LogFilePrefix}-{LogFilePostfix}");
         LogDirectory = GetLogDirectory();
         TraceEnabled = Configuration.GetValue<bool>($"{ProductName}:Logging:LogLevel:TraceEnabled");
 

@@ -2,6 +2,7 @@
 
 using Microsoft.Extensions.Logging;
 
+using SharperHacks.CoreLibs.JsonHelpers;
 using SharperHacks.CoreLibs.StringExtensions;
 
 namespace SharperHacks.CoreLibs.AppUtilities.UnitTests;
@@ -9,20 +10,28 @@ namespace SharperHacks.CoreLibs.AppUtilities.UnitTests;
 [TestClass]
 public class AppConfigSmokeTests
 {
-    private string _localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) ?? $".{Path.DirectorySeparatorChar}";
+    private string _localAppDataPath = 
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) ?? $".{Path.DirectorySeparatorChar}";
 
     [TestMethod]
-    public void ProductNameIsCorrect()
+    public void CompanyNameIsCorrect()
     {
-        Console.WriteLine($"Product name: {AppConfig.ProductName}");
-        Assert.AreEqual("testhost", AppConfig.ProductName);
+        Console.WriteLine($"Company name: {AppConfig.CompanyName}");
+        Assert.AreEqual("Sharper Hacks LLC (US-WA)", AppConfig.CompanyName);
     }
 
     [TestMethod]
-    public void TestConfigFileExists()
+    public void DefaultConsoleLogEventLevelIsCorrect()
     {
-        Console.WriteLine($"Config file: {AppConfig.JsonAppSettingsFileName}");
-        Assert.IsTrue(File.Exists(AppConfig.JsonAppSettingsFileName));
+        Console.WriteLine($"Default console logging level: {AppConfig.DefaultConsoleLogEventLevel}");
+        Assert.AreEqual(LogLevel.Warning, AppConfig.DefaultConsoleLogEventLevel);
+    }
+
+    [TestMethod]
+    public void DefaultFileLogEventLevelIsCorrect()
+    {
+        Console.WriteLine($"Default file log event level: {AppConfig.DefaultFileLogEventLevel}");
+        Assert.AreEqual(LogLevel.Information, AppConfig.DefaultFileLogEventLevel);
     }
 
     [TestMethod]
@@ -35,19 +44,7 @@ public class AppConfigSmokeTests
     }
 
     [TestMethod]
-    public void DefaultConsoleLogEventLevelIsCorrect()
-    {
-        Assert.AreEqual(LogLevel.Warning, AppConfig.DefaultConsoleLogEventLevel);
-    }
-
-    [TestMethod]
-    public void DefaultFileLogEventLevelIsCorrect()
-    {
-        Assert.AreEqual(LogLevel.Information, AppConfig.DefaultFileLogEventLevel);
-    }
-
-    [TestMethod]
-    public void DefaultLogDirectoryIsCorrect()
+    public void LogDirectoryIsCorrect()
     {
         Console.WriteLine($"LogDirectory: {AppConfig.LogDirectory}");
 
@@ -56,23 +53,55 @@ public class AppConfigSmokeTests
     }
 
     [TestMethod]
-    public void TraceIsEnabled()
+    public void LogFilePrefixIsCorrect()
     {
-        Assert.AreEqual(false, AppConfig.TraceEnabled);
+        Console.WriteLine($"Log file prefix: {AppConfig.LogFilePrefix}");
+
+        Assert.AreEqual("testhost", AppConfig.LogFilePrefix);
     }
 
     [TestMethod]
-    public void DefaultRootDataPathIsCorrect()
+    public void ProductionLogPathIsCorrect()
+    {
+        Console.WriteLine(AppConfig.ProductionLogPath);
+
+        Assert.IsTrue(AppConfig.ProductionLogPath.EndsWith("testhost-.log"));
+    }
+
+    [TestMethod]
+    public void ProductNameIsCorrect()
+    {
+        Console.WriteLine($"Product name: {AppConfig.ProductName}");
+
+        Assert.AreEqual("testhost", AppConfig.ProductName);
+    }
+
+    [TestMethod]
+    public void RootDataPathIsCorrect()
     {
         var rootPath = AppConfig.RootDataPath;
+        var dataPathTail = $@"{AppConfig.CompanyName}\{AppConfig.ProductName}\Data".CorrectOSPathSeparators();
 
         Console.WriteLine(rootPath);
 
         Assert.IsNotNull(rootPath);
         Assert.IsFalse(string.IsNullOrEmpty(rootPath));
         Assert.IsTrue(rootPath.StartsWith(_localAppDataPath));
-        Assert.IsTrue(rootPath.EndsWith(
-            $@"AppData\Local\{AppConfig.CompanyName}\{AppConfig.ProductName}\Data".CorrectOSPathSeparators()));
+        Assert.IsTrue(rootPath.EndsWith(dataPathTail));
+    }
+
+    [TestMethod]
+    public void TestConfigFileExists()
+    {
+        Console.WriteLine($"Config file: {AppConfig.JsonAppSettingsFileName}");
+
+        Assert.IsTrue(File.Exists(AppConfig.JsonAppSettingsFileName));
+    }
+
+    [TestMethod]
+    public void TraceIsEnabled()
+    {
+        Assert.AreEqual(false, AppConfig.TraceEnabled);
     }
 }
 
