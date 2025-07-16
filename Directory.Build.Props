@@ -12,6 +12,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Deterministic>true</Deterministic>
-    <PathMapRoot>$(MSBuildThisFileDirectory)</PathMapRoot>
+    <PathMapRoot>SHLLC/CoreLibs</PathMapRoot>
   </PropertyGroup>
 </Project>
