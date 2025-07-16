@@ -12,5 +12,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Deterministic>true</Deterministic>
+    <PathMapRoot>$(MSBuildThisFileDirectory)</PathMapRoot>
   </PropertyGroup>
 </Project>
