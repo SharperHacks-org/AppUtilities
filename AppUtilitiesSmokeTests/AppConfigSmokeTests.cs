@@ -47,8 +47,8 @@ public class AppConfigSmokeTests
     {
         Console.WriteLine($"LogDirectory: {AppConfig.LogDirectory}");
 
-        Assert.IsTrue(AppConfig.LogDirectory.StartsWith(_localAppDataPath));
-        Assert.IsTrue(AppConfig.LogDirectory.EndsWith($@"AppData\Local\{AppConfig.CompanyName}\{AppConfig.ProductName}\Logs".CorrectOSPathSeparators()));
+        Assert.StartsWith(_localAppDataPath, AppConfig.LogDirectory);
+        Assert.EndsWith($@"AppData\Local\{AppConfig.CompanyName}\{AppConfig.ProductName}\Logs".CorrectOSPathSeparators(), AppConfig.LogDirectory);
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public class AppConfigSmokeTests
     {
         Console.WriteLine(AppConfig.ProductionLogPath);
 
-        Assert.IsTrue(AppConfig.ProductionLogPath.EndsWith("testhost-.log"));
+        Assert.EndsWith("testhost-.log", AppConfig.ProductionLogPath);
     }
 
     [TestMethod]
@@ -85,8 +85,8 @@ public class AppConfigSmokeTests
 
         Assert.IsNotNull(rootPath);
         Assert.IsFalse(string.IsNullOrEmpty(rootPath));
-        Assert.IsTrue(rootPath.StartsWith(_localAppDataPath));
-        Assert.IsTrue(rootPath.EndsWith(dataPathTail));
+        Assert.StartsWith(_localAppDataPath, rootPath);
+        Assert.EndsWith(dataPathTail, rootPath);
     }
 
     [TestMethod]
@@ -100,7 +100,7 @@ public class AppConfigSmokeTests
     [TestMethod]
     public void TraceIsEnabled()
     {
-        Assert.AreEqual(false, AppConfig.TraceEnabled);
+        Assert.IsFalse(AppConfig.TraceEnabled);
     }
 }
 
