@@ -17,8 +17,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="SharperHacks.CoreLibs.Constants" Version="5.0.0" />
-    <PackageReference Include="SharperHacks.CoreLibs.JsonHelpers" Version="4.0.0" />
+    <PackageReference Include="SharperHacks.CoreLibs.Constants" Version="5.0.1" />
+    <PackageReference Include="SharperHacks.CoreLibs.JsonHelpers" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
