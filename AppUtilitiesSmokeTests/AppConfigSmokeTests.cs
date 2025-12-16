@@ -4,9 +4,12 @@ using Microsoft.Extensions.Logging;
 
 using SharperHacks.CoreLibs.StringExtensions;
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace SharperHacks.CoreLibs.AppUtilities.UnitTests;
 
 [TestClass]
+[ExcludeFromCodeCoverage]
 public class AppConfigSmokeTests
 {
     private string _localAppDataPath = 
